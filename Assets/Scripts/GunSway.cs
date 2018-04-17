@@ -2,53 +2,74 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GunSway : MonoBehaviour
+namespace ElementWar
 {
-	[SerializeField]
-	Transform gun;
-
-	[SerializeField]
-	float positionSmoothing;
-
-	[SerializeField]
-	float rotationSmoothing;
-
-	Vector3 originalLocalPos;
-	Quaternion originalLocalRot;
-
-	[SerializeField]
-	Vector3 lastFramePos;
-	[SerializeField]
-	Quaternion lastFrameRot;
-
-	void Start()
+	public class GunSway : MonoBehaviour
 	{
-		originalLocalPos = transform.localPosition;
-		originalLocalRot = transform.localRotation;
-		lastFramePos = transform.position;
-		lastFrameRot = transform.rotation;
-	}
+		[SerializeField]
+		Transform gun;
 
-	void Update()
-	{
-		if (positionSmoothing > 0)
-		{
-			gun.position = Vector3.Lerp(lastFramePos, transform.position, positionSmoothing * Time.deltaTime);
-		}
-		else
-		{
-			gun.position = transform.position;
-		}
-		lastFramePos = gun.position;
+		[SerializeField]
+		float positionSmoothing;
 
-		if (rotationSmoothing > 0)
+		[SerializeField]
+		float rotationSmoothing;
+
+		Vector3 originalLocalPos;
+		Quaternion originalLocalRot;
+
+		[SerializeField]
+		Vector3 lastFramePos;
+		[SerializeField]
+		Quaternion lastFrameRot;
+
+		[SerializeField]
+		Vector3 MaxPositionLimit;
+
+		void Start()
 		{
-			gun.rotation = Quaternion.Lerp(lastFrameRot, transform.rotation, rotationSmoothing * Time.deltaTime);
+			originalLocalPos = transform.localPosition;
+			originalLocalRot = transform.localRotation;
+			lastFramePos = transform.position;
+			lastFrameRot = transform.rotation;
 		}
-		else
+
+		void Update()
 		{
-			gun.rotation = transform.rotation;
+			if (positionSmoothing > 0)
+			{
+				gun.position = Vector3.Lerp(lastFramePos, transform.position, positionSmoothing * Time.deltaTime);
+				var gunPos = gun.localPosition;
+				if (MaxPositionLimit.x > 0 && Mathf.Abs(gunPos.x) > MaxPositionLimit.x)
+				{
+					gunPos.x = Mathf.Sign(gunPos.x) * MaxPositionLimit.x;
+				}
+				if (MaxPositionLimit.y > 0 && Mathf.Abs(gunPos.y) > MaxPositionLimit.y)
+				{
+					gunPos.y = Mathf.Sign(gunPos.y) * MaxPositionLimit.y;
+				}
+				if (MaxPositionLimit.z > 0 && Mathf.Abs(gunPos.z) > MaxPositionLimit.z)
+				{
+					gunPos.z = Mathf.Sign(gunPos.z) * MaxPositionLimit.z;
+				}
+				gun.localPosition = gunPos;
+			}
+			else
+			{
+				gun.position = transform.position;
+			}
+			lastFramePos = gun.position;
+
+			if (rotationSmoothing > 0)
+			{
+				gun.rotation = Quaternion.Lerp(lastFrameRot, transform.rotation, rotationSmoothing * Time.deltaTime);
+			}
+			else
+			{
+				gun.rotation = transform.rotation;
+			}
+			lastFrameRot = gun.rotation;
 		}
-		lastFrameRot = gun.rotation;
 	}
 }
+

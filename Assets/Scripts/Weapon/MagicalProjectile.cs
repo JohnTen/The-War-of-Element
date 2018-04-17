@@ -1,22 +1,28 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace ElementWar.Weapon
 {
-	[System.Flags]
-	public enum Element
+	public class MagicalProjectile : MonoProjectile, IElementalObject
 	{
-		None = 0,
-		Air = 1,
-        Fire = 2,
-		Water = 4,
-		Earth = 8,
-	}
+		[SerializeField]
+		Element element;
+		public Element Element
+		{
+			get { return element; }
+			set { element = value; }
+		}
 
-	public class MagicalProjectile : MonoProjectile
-	{
-		public Element Element { get; set; }
+		protected override void Hitting(Collider collider)
+		{
+			base.Hitting(collider);
+			var target = collider.GetComponent<IElementalTarget>();
+			if (target != null)
+				target.HitByElement(Element);
+			Destroy(this.gameObject);
+		}
 	}
 }
 

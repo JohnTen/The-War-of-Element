@@ -10,6 +10,8 @@ namespace ElementWar.Weapon
 	{
 		float Damage { get; set; }
 
+		float LiveTime { get; set; }
+
 		Vector3 Velocity { get; set; }
 
 		Vector3 Position { get; set; }
@@ -17,13 +19,23 @@ namespace ElementWar.Weapon
 
 	public class MonoProjectile : MonoBehaviour, IProjectile
 	{
+		[SerializeField]
 		protected float damage;
-		public float Damage
+		public virtual float Damage
 		{
 			get { return damage; }
 			set { damage = value; }
 		}
 
+		[SerializeField]
+		protected float liveTime;
+		public virtual float LiveTime
+		{
+			get { return liveTime; }
+			set { liveTime = value; }
+		}
+
+		[SerializeField]
 		protected Vector3 velocity;
 		public virtual Vector3 Velocity
 		{
@@ -31,11 +43,19 @@ namespace ElementWar.Weapon
 			set { velocity = value; }
 		}
 
+		[SerializeField]
 		protected Vector3 position;
 		public virtual Vector3 Position
 		{
 			get { return position; }
 			set { position = value; }
+		}
+
+		protected float liveTimer;
+
+		protected virtual void Start()
+		{
+			liveTimer = LiveTime;
 		}
 
 		protected virtual void Update()
@@ -45,7 +65,13 @@ namespace ElementWar.Weapon
 			{
 				Hitting(hit.collider);
 			}
-        }
+
+			liveTimer -= Time.deltaTime;
+			if (liveTimer <= 0)
+			{
+				Destroy(gameObject);
+			}
+		}
 
 		/// <summary>
 		/// Move this projectile by velocity.
@@ -55,17 +81,15 @@ namespace ElementWar.Weapon
 		protected virtual bool Moving(Vector3 velocity, out RaycastHit hit)
 		{
 			Ray ray = new Ray(Position, velocity * Time.deltaTime);
-
+			Debug.DrawRay(position, velocity * Time.deltaTime);
 			Physics.Raycast(ray, out hit);
 
 			transform.position += velocity * Time.deltaTime;
+			position = transform.position;
 
 			return hit.collider;
 		}
 
-		protected virtual void Hitting(Collider collider)
-		{
-
-		}
+		protected virtual void Hitting(Collider collider) { }
 	}
 }

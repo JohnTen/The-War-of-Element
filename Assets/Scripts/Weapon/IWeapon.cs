@@ -57,8 +57,24 @@ namespace ElementWar.Weapon
 			return true;
         }
 
+		protected virtual void Aiming()
+		{
+			var ray = Camera.main.ViewportPointToRay(Vector3.one * 0.5f);
+			RaycastHit hit;
+			if (Physics.Raycast(ray, out hit, 100))
+			{
+				firePoint.LookAt(hit.point);
+			}
+			else
+			{
+				firePoint.LookAt(ray.origin + ray.direction * 100);
+			}
+		}
+
 		protected virtual void InitializeProjectile(MonoProjectile projectile)
 		{
+
+
 			projectile.transform.position = firePoint.position;
 			projectile.transform.rotation = firePoint.rotation;
 			projectile.Velocity = firePoint.forward * parameter.LaunchForce;
