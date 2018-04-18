@@ -11,39 +11,44 @@ namespace ElementWar
 		Color[] elementColor;
 
 		[SerializeField]
-		Image baseImage;
+		ElementIcon baseIcon;
 
 		[SerializeField]
-		Image[] images;
+		ElementIcon[] icons;
+
+
+		public void ShowElements(Element element)
+		{
+			DisposeAllIcon();
+			icons = new ElementIcon[1];
+			icons[0] = Instantiate(baseIcon.gameObject).GetComponent<ElementIcon>();
+			icons[0].transform.SetParent(this.transform);
+			icons[0].transform.localPosition = Vector3.zero;
+			icons[0].transform.localRotation = Quaternion.identity;
+			icons[0].Element = element;
+		}
 
 		public void ShowElements(Element[] elements)
 		{
-			for (int i = 0; i < images.Length; i++)
-			{
-				Destroy(images[i].gameObject);
-			}
-			images = new Image[elements.Length];
+			DisposeAllIcon();
+			icons = new ElementIcon[elements.Length];
+
 
 			for (int i = 0; i < elements.Length; i++)
 			{
-				images[i] = Instantiate(baseImage.gameObject).GetComponent<Image>();
-				images[i].transform.SetParent(this.transform);
-				images[i].transform.localPosition = Vector3.zero;
-				switch (elements[i])
-				{
-					case Element.Air:
-						images[i].color = elementColor[0];
-						break;
-					case Element.Fire:
-						images[i].color = elementColor[1];
-						break;
-					case Element.Earth:
-						images[i].color = elementColor[2];
-						break;
-					case Element.Water:
-						images[i].color = elementColor[3];
-						break;
-				}
+				icons[i] = Instantiate(baseIcon.gameObject).GetComponent<ElementIcon>();
+				icons[i].transform.SetParent(this.transform);
+				icons[i].transform.localPosition = Vector3.zero;
+				icons[i].transform.localRotation = Quaternion.identity;
+				icons[i].Element = elements[i];
+			}
+		}
+
+		void DisposeAllIcon()
+		{
+			for (int i = 0; i < icons.Length; i++)
+			{
+				Destroy(icons[i].gameObject);
 			}
 		}
 	}

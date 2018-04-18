@@ -20,12 +20,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4188285574021210}
   - component: {fileID: 33164704839969528}
-  - component: {fileID: 135681809584387434}
   - component: {fileID: 23696481140446174}
   - component: {fileID: 54742893206068138}
   - component: {fileID: 114375615043356396}
   m_Layer: 0
-  m_Name: projectile
+  m_Name: MagicalProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,16 +114,5 @@ MonoBehaviour:
   liveTime: 10
   velocity: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
+  gravityScale: 1
   element: 2
---- !u!135 &135681809584387434
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1273412816736848}
-  m_Material: {fileID: 13400000, guid: 069b457bd3eb7da40868076e6e55a813, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}

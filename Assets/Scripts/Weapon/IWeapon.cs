@@ -52,6 +52,7 @@ namespace ElementWar.Weapon
 			fireTimer = Parameter.FireRate;
 
 			var projectile = Instantiate(parameter.Projectile);
+			//Aiming();
 			InitializeProjectile(projectile);
 
 			return true;
@@ -73,8 +74,6 @@ namespace ElementWar.Weapon
 
 		protected virtual void InitializeProjectile(MonoProjectile projectile)
 		{
-
-
 			projectile.transform.position = firePoint.position;
 			projectile.transform.rotation = firePoint.rotation;
 			projectile.Velocity = firePoint.forward * parameter.LaunchForce;

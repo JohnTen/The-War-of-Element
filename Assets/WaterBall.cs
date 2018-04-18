@@ -24,7 +24,5 @@ public class WaterBall : MonoBehaviour
 		var second = m.GetTextureOffset("_DetailAlbedoMap");
 		m.SetTextureOffset("_MainTex", main + firstBumpMapSpeed * Time.deltaTime);
 		m.SetTextureOffset("_DetailAlbedoMap", second + secondBumpMapSpeed * Time.deltaTime);
-		//print(main);
-		//print(second);
 	}
 }

@@ -27,16 +27,41 @@ namespace ElementWar
 		[SerializeField]
 		ElementMeter eMeter;
 
+		[SerializeField]
+		Transform destination;
+		public Transform Destination
+		{
+			get { return destination; }
+			set { destination = value; }
+		}
+
+		[SerializeField]
+		float moveSpeed;
+		public float MoveSpeed
+		{
+			get { return moveSpeed; }
+			set { moveSpeed = value; }
+		}
+
+		RigidbodyMover mover;
+
 		// Use this for initialization
 		private void Start()
 		{
+			mover = GetComponent<RigidbodyMover>();
 			elementList.Add(Element);
+			eMeter.ShowElements(elementList.ToArray());
 		}
 
 		// Update is called once per frame
 		private void Update()
 		{
+			if (destination == null) return;
 
+			var dir = destination.position - transform.position;
+			dir.y = 0;
+			dir.Normalize();
+			mover.Translate(dir * Time.deltaTime * moveSpeed);
 		}
 
 		public Element[] GetElements()

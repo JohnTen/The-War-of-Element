@@ -19,6 +19,9 @@ namespace ElementWar
 		[SerializeField]
 		MagicGun gun;
 
+		[SerializeField]
+		ObjectFloater floater;
+
 		// Update is called once per frame
 		void Update ()
 		{
@@ -34,6 +37,18 @@ namespace ElementWar
 				spaceMovement.Normalize();
 
 			transform.Translate(spaceMovement * moveSpeed * Time.deltaTime);
+		}
+
+		void AimWeapon()
+		{
+			if (Input.GetButton("Fire3"))
+			{
+				floater.ReturnToOrigin = true;
+			}
+			else
+			{
+				floater.ReturnToOrigin = false;
+			}
 		}
 
 		void FireWeapon()

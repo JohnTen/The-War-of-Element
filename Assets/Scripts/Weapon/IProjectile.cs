@@ -80,9 +80,9 @@ namespace ElementWar.Weapon
 		/// <returns>If this projectile hits something, return true, otherwise, false.</returns>
 		protected virtual bool Moving(Vector3 velocity, out RaycastHit hit)
 		{
-			Ray ray = new Ray(Position, velocity * Time.deltaTime);
+			Ray ray = new Ray(Position, velocity);
 			Debug.DrawRay(position, velocity * Time.deltaTime);
-			Physics.Raycast(ray, out hit);
+			Physics.Raycast(ray, out hit, velocity.magnitude * Time.deltaTime);
 
 			transform.position += velocity * Time.deltaTime;
 			position = transform.position;
@@ -90,6 +90,8 @@ namespace ElementWar.Weapon
 			return hit.collider;
 		}
 
-		protected virtual void Hitting(Collider collider) { }
+		protected virtual void Hitting(Collider collider)
+		{
+		}
 	}
 }

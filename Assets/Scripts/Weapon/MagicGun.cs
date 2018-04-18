@@ -8,6 +8,13 @@ namespace ElementWar.Weapon
 	{
 		[SerializeField]
 		Element element;
+
+		[SerializeField]
+		ElementMeter meter;
+
+		[SerializeField]
+		ParabolaDrawer drawer;
+
 		public Element Element
 		{
 			get { return element; }
@@ -28,6 +35,23 @@ namespace ElementWar.Weapon
 			var eleProjectile = projectile as MagicalProjectile;
 			if (eleProjectile == null) return;
 			eleProjectile.Element = Element;
+		}
+
+		protected virtual void Start()
+		{
+			meter.ShowElements(Element);
+		}
+
+		protected override void Update()
+		{
+			drawer.InitVelocity = Vector3.forward * parameter.LaunchForce;
+			if (Input.GetKeyDown(KeyCode.F))
+			{
+				SwitchElement();
+				if (meter != null)
+					meter.ShowElements(Element);
+			}
+			base.Update();
 		}
 	}
 }

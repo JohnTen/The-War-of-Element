@@ -70,7 +70,10 @@ namespace ElementWar
 		{
 			lookAngle += turn;
 			var targetRotation = Quaternion.Euler(0, lookAngle, 0);
-			transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, turnSmoothing * Time.deltaTime);
+			if (turnSmoothing > 0)
+				transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, turnSmoothing * Time.deltaTime);
+			else
+				transform.localRotation = targetRotation;
 		}
 
 		/// <summary>
@@ -83,7 +86,10 @@ namespace ElementWar
 			if (tiltAngle < tiltMin) tiltAngle = tiltMin;
 
 			var targetRotation = Quaternion.Euler(tiltAngle, 0, 0);
-			cameraPivot.localRotation = Quaternion.Slerp(cameraPivot.localRotation, targetRotation, tiltSmoothing * Time.deltaTime);
+			if (tiltSmoothing > 0)
+				cameraPivot.localRotation = Quaternion.Slerp(cameraPivot.localRotation, targetRotation, tiltSmoothing * Time.deltaTime);
+			else
+				cameraPivot.localRotation = targetRotation;
 		}
 	}
 }
